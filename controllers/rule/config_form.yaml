@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: rule
+
+# Model Form Field configuration
+form: $/mossadal/extendmarkdown/models/rule/fields.yaml
+
+# Model Class name
+modelClass: Mossadal\ExtendMarkdown\Models\Rule
+
+# Default redirect location
+defaultRedirect: mossadal/extendmarkdown/rule
+
+# Create page
+create:
+    title: Create rule
+    redirect: mossadal/extendmarkdown/rule/update/:id
+    redirectClose: mossadal/extendmarkdown/rule
+
+# Update page
+update:
+    title: Edit rule
+    redirect: mossadal/extendmarkdown/rule
+    redirectClose: mossadal/extendmarkdown/rule
+
+# Preview page
+preview:
+    title: Preview rule

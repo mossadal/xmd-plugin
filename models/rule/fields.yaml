@@ -1,0 +1,24 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    comment:
+        label: Comment
+        type: text
+    start_markdown:
+        label: Source start tag
+        type: text
+    close_markdown:
+        label: Source close tag
+        type: text
+        comment:
+    start_tag:
+        label: Output start tag
+        type: text
+    close_tag:
+        label: Output close tag
+        type: text
+    is_protected:
+        label: Protect
+        type: switch
