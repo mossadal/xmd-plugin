@@ -1,6 +1,8 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
-        <li><a href="<?= Backend::url('mossadal/extendmarkdown/rule') ?>">rule</a></li>
+        <li><a href="<?= Backend::url('mossadal/extendmarkdown/rule') ?>">
+        <?= e(trans('mossadal.extendmarkdown::rule.rule')) ?>
+        </a></li>
         <li><?= e($this->pageTitle) ?></li>
     </ul>
 <?php Block::endPut() ?>
@@ -21,7 +23,7 @@
                     data-hotkey="ctrl+s, cmd+s"
                     data-load-indicator="Creating rule..."
                     class="btn btn-primary">
-                    Create
+                    <?= e(trans('mossadal.extendmarkdown::lang.rule.create')) ?>
                 </button>
                 <button
                     type="button"
@@ -30,10 +32,12 @@
                     data-hotkey="ctrl+enter, cmd+enter"
                     data-load-indicator="Creating rule..."
                     class="btn btn-default">
-                    Create and Close
+                    <?= e(trans('mossadal.extendmarkdown::lang.rule.create_and_close')) ?>
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url('mossadal/extendmarkdown/rule') ?>">Cancel</a>
+                    or <a href="<?= Backend::url('mossadal/extendmarkdown/rule') ?>">
+                    <?= e(trans('mossadal.extendmarkdown::lang.rule.cancel')) ?>
+                    </a>
                 </span>
             </div>
         </div>
@@ -43,6 +47,8 @@
 <?php else: ?>
 
     <p class="flash-message static error"><?= e($this->fatalError) ?></p>
-    <p><a href="<?= Backend::url('mossadal/extendmarkdown/rule') ?>" class="btn btn-default">Return to rule list</a></p>
+    <p><a href="<?= Backend::url('mossadal/extendmarkdown/rule') ?>" class="btn btn-default">
+    <?= e(trans('mossadal.extendmarkdown::lang.rule.return_to_list')) ?>
+    </a></p>
 
 <?php endif ?>

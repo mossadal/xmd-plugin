@@ -2,14 +2,9 @@
 #  List Behavior Config
 # ===================================
 
-# Model List Column configuration
 list: $/mossadal/extendmarkdown/models/rule/columns.yaml
-
-# Model Class name
 modelClass: Mossadal\ExtendMarkdown\Models\Rule
-
-# List Title
-title: Manage rules
+title: mossadal.extendmarkdown::lang.rule.manage_rules
 
 # Link URL for each record
 recordUrl: mossadal/extendmarkdown/rule/update/:id
@@ -32,7 +27,7 @@ showSorting: true
 #     direction: desc
 
 # Display checkboxes next to each record
-# showCheckboxes: true
+showCheckboxes: true
 
 # Toolbar widget configuration
 toolbar:

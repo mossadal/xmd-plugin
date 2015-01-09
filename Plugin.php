@@ -24,8 +24,8 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'ExtendMarkdown',
-            'description' => 'Provides functionality to extend the markdown interpreter and to protect certain constructions from the parser (for example Mathjax code).',
+            'name'        => 'mossadal.extendmarkdown::lang.plugin.name',
+            'description' => 'mossadal.extendmarkdown::lang.plugin.description',
             'author'      => 'Frank Wikström, Mossadal konsult och design AB',
             'icon'        => 'icon-user-md'
         ];
@@ -164,7 +164,7 @@ class Plugin extends PluginBase
     {
         return [
             'xmd' => [
-                'label' => 'xmd',
+                'label' => 'mossadal.extendmarkdown::lang.navigation.label',
                 'url' => Backend::url('mossadal/extendmarkdown/rule'),
                 'icon' => 'icon-user-md',
                 'order' => 700

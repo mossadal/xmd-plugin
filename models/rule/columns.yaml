@@ -4,27 +4,27 @@
 
 columns:
     id:
-        label: Id
+        label: mossadal.extendmarkdown::lang.model.id
     comment:
-        label: Comment
+        label: mossadal.extendmarkdown::lang.model.comment
         type: partial
         path: @/plugins/mossadal/extendmarkdown/controllers/rule/_raw.html
     start_markdown:
-        label: Source start tag
+        label: mossadal.extendmarkdown::lang.model.start_markdown
         type: partial
         path: @/plugins/mossadal/extendmarkdown/controllers/rule/_raw.html
     close_markdown:
-        label: Source close tag
+        label: mossadal.extendmarkdown::lang.model.close_markdown
         type: partial
         path: @/plugins/mossadal/extendmarkdown/controllers/rule/_raw.html
     start_tag:
-        label: Output start tag
+        label: mossadal.extendmarkdown::lang.model.start_tag
         type: partial
         path: @/plugins/mossadal/extendmarkdown/controllers/rule/_raw.html
     close_tag:
-        label: Output close tag
+        label: mossadal.extendmarkdown::lang.model.close_tag
         type: partial
         path: @/plugins/mossadal/extendmarkdown/controllers/rule/_raw.html
     is_protected:
-        label: Protect
+        label: mossadal.extendmarkdown::lang.model.is_protected
         type: switch
