@@ -1,6 +1,7 @@
 <?php namespace Mossadal\ExtendMarkdown\Models;
 
 use Model;
+use Cache;
 
 /**
  * Rule Model
@@ -35,5 +36,10 @@ class Rule extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+
+    public function afterSave()
+    {
+        Cache::forget('cached_rules');
+    }
 
 }

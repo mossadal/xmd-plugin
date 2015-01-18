@@ -16,7 +16,7 @@ class Hooks {
      * @author Frank Wikström <frank@mossadal.se>
      **/
     public static function preMarkdownHook($data) {
-        $rules = Rule::all();
+        $rules = Rule::remember(5, 'cached_rules')->get();
 
         $text = trim($data->text);
         self::$dictionary = [];
@@ -60,7 +60,7 @@ class Hooks {
 
         $text = trim($data->text);
 
-        $rules = Rule::all();
+        $rules = Rule::remember(5, 'cached_rules')->get();
 
         // First put back all the protected items
 
