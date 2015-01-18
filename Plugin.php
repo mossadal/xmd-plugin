@@ -3,12 +3,11 @@
 use Backend;
 use Controller;
 use System\Classes\PluginBase;
-use Rainlab\Blog\Models\Post as PostModel;
-use Rainlab\Pages\Controllers\Index as PagesIndexController;
-use October\Rain\Support\Markdown;
+use October\Rain\Support\MarkdownData;
 use Mossadal\ExtendMarkdown\Models\Rule;
+use Mossadal\ExtendMarkdown\Classes\Hooks;
+use System\Classes\SettingsManager;
 use Event;
-use DB;
 
 /**
  * ExtendMarkdown Plugin Information File
@@ -35,45 +34,15 @@ class Plugin extends PluginBase
     public function boot()
     {
 
-        // This is called after a Blog.Post is saved. Note
-        // that the Blog plugin creates $post->content_html
-        // from $post->content in its beforeSave() method.
-        // We can't override PostModel::saving() since this is
-        // called *before* beforeSave(), thus replacing our
-        // changes.
-
-        PostModel::saved(function ($post)
-        {
-            $content_html = self::xmd($post->content);
-
-            // Update the database directly using the DB facade
-            // This prevent Eloquent from firing another Post::saved()
-            // event and getting us stuck in an endless loop.
-
-            DB::update('update rainlab_blog_posts set content_html = ? where id = ?', [$content_html, $post->id]);
+        Event::listen('markdown.beforeParse', function($data) {
+            Hooks::preMarkdownHook($data);
         });
 
-
+        Event::listen('markdown.parse', function($original, $data) {
+            Hooks::postMarkdownHook($original, $data);
+        });
     }
 
-
-    /**
-     * Create a delimiter to use with preg_replace. We
-     * need to chose one that is *not* present in the regexp
-     * pattern.
-     * @param string $pattern The regexp pattern
-     * @return string A suitable delimiter; one of: #/@%&;:+
-     */
-    private function getDelimiter($pattern)
-    {
-        $candidates = [ '#','/','@','%','&',';',':','+' ];
-
-        foreach ($candidates as $char) {
-            if (strpos($pattern, $char) === FALSE) return $char;
-        }
-
-        throw new Exception('Could not generate suitable delimiter for regexp.');
-    }
 
     /**
      * Filter to apply the replacement rules specified in the plugin page.
@@ -84,62 +53,12 @@ class Plugin extends PluginBase
      */
     public function xmd($text)
     {
-        $rules = Rule::all();
+        $data = new MarkdownData($text);
 
-        $text = trim($text);
+        Hooks::preMarkdownhook($data);
+        Hooks::postMarkdownhook($text, $data);
 
-        // First apply the rules that protect the markup from the Parsedown interpreter
-
-        foreach($rules as $rule)
-        {
-            if ($rule->is_protected) {
-                // Wrap the corresponding code in a div
-                // with a hopefully unique class before
-                // passing it on to Parsedown.
-
-                $class = 'class = "xmd-'.$rule->id.'"';
-
-                // This should be a character not found in the search pattern
-                $avoid = $rule->start_markdown . $rule->close_markdown;
-                $delimiter = $this->getDelimiter($avoid);
-
-                $search = $delimiter . preg_quote($rule->start_markdown) . '(.*?)' . preg_quote($rule->close_markdown) . $delimiter;
-                $replace = '<div '.$class.'>$1</div '.$class.'>';
-
-
-                $text = preg_replace($search, $replace, $text);
-                // $text = $text  . '<br />'. $search . '->' . $replace;
-            }
-        }
-
-        // Next run the Parsedown interpreter on the protected text
-
-        $text = Markdown::parse($text);
-
-        // Finally run the unproteced rules and replace the protecting div:s with the final result
-
-        foreach ($rules as $rule)
-        {
-            if ($rule->is_protected) {
-                $class = 'class = "xmd-'.$rule->id.'"';
-                $delimiter = '~';
-                $search = $delimiter . '<div '.$class.'>(.*)</div '.$class.'>' . $delimiter;
-                $replace = ($rule->start_tag) . '$1' . ($rule->close_tag);
-
-                $text = preg_replace($search, $replace, $text);
-            }
-            else {
-                $avoid = $rule->start_markdown . $rule->close_markdown;
-                $delimiter = $this->getDelimiter($avoid);
-
-                $search = $delimiter . preg_quote($rule->start_markdown) . '(.*?)' . preg_quote($rule->close_markdown) . $delimiter;
-                $replace = $rule->start_tag . '$1' . $rule->close_tag;
-
-                $text = preg_replace($search, $replace, $text);
-            }
-        }
-
-        return $text;
+        return $data->text;
     }
 
     /**
@@ -160,14 +79,16 @@ class Plugin extends PluginBase
      * Define the backend menus
      * @return void
      */
-    public function registerNavigation()
+    public function registerSettings()
     {
         return [
-            'xmd' => [
-                'label' => 'mossadal.extendmarkdown::lang.navigation.label',
-                'url' => Backend::url('mossadal/extendmarkdown/rule'),
-                'icon' => 'icon-user-md',
-                'order' => 700
+            'definitions' => [
+                'label'     => 'mossadal.extendmarkdown::lang.navigation.label',
+                'description' => 'mossadal.extendmarkdown::lang.navigation.description',
+                'url'       => Backend::url('mossadal/extendmarkdown/rule'),
+                'icon'      => 'icon-user-md',
+                'order'     => 700,
+                'category'  => SettingsManager::CATEGORY_CMS,
             ]
         ];
     }

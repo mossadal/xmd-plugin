@@ -6,7 +6,8 @@ return [
         'description' => 'Provides functionality to extend the markdown interpreter and to protect certain constructions from the parser (for example Mathjax code).'
     ],
     'navigation' => [
-        'label' => 'xmd'
+        'label' => 'Extend Markdown',
+        'description' => 'Manage the Markdown extension rules',
     ],
     'model' => [
         'id' => 'Id',
