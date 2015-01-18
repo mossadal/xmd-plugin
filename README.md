@@ -60,3 +60,9 @@ By default, the plugin comes with the following rules
 The plugin provides a backend interface for modifying and adding
 additional rules as needed.
 
+## Live MathJax updates when previewing a blog post in the backend
+
+If you write a lot of MathJax heavy blog posts, you probably want to render
+the MathJax markup, also in the backend preview.
+
+To do this, install the [Mossadal.MathJax](https://github.com/mossadal/mathjax-plugin) plugin.
