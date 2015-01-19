@@ -29,7 +29,7 @@ class Hooks {
                 $avoid = $rule->start_markdown . $rule->close_markdown;
                 $delimiter = self::getDelimiter($avoid);
 
-                $search = $delimiter . preg_quote($rule->start_markdown) . '(.*?)' . preg_quote($rule->close_markdown) . $delimiter + 's';
+                $search = $delimiter . preg_quote($rule->start_markdown) . '(.*?)' . preg_quote($rule->close_markdown) . $delimiter . 's';
                 $replace ="";
 
                 $text = preg_replace_callback(
@@ -75,7 +75,7 @@ class Hooks {
                 $avoid = $rule->start_markdown . $rule->close_markdown;
                 $delimiter = self::getDelimiter($avoid);
 
-                $search = $delimiter . preg_quote($rule->start_markdown) . '(.*?)' . preg_quote($rule->close_markdown) . $delimiter;
+                $search = $delimiter . preg_quote($rule->start_markdown) . '(.*?)' . preg_quote($rule->close_markdown) . $delimiter . 's';
                 $replace = $rule->start_tag . '$1' . $rule->close_tag;
 
                 $text = preg_replace($search, $replace, $text);
