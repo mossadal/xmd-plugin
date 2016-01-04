@@ -35,8 +35,8 @@ class Hooks {
                 $text = preg_replace_callback(
                     $search,
                     function($matches) use($rule) {
-                        $key = uniqid('xmd');
-                        self::$dictionary[$key] = $rule->start_tag . $matches[1] . $rule->close_tag;
+                        $key = uniqid('xmd').count(self::$dictionary);
+                        self::$dictionary[$key] = $rule->start_tag . htmlentities($matches[1]) . $rule->close_tag;
                         return $key;
                     },
                     $text
