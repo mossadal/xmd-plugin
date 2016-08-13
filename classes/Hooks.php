@@ -36,7 +36,7 @@ class Hooks {
                     $search,
                     function($matches) use($rule) {
                         $key = uniqid('xmd').count(self::$dictionary);
-                        self::$dictionary[$key] = $rule->start_tag . htmlentities($matches[1]) . $rule->close_tag;
+                        self::$dictionary[] = [$key, $rule->start_tag . $matches[1] . $rule->close_tag];
                         return $key;
                     },
                     $text
@@ -60,12 +60,12 @@ class Hooks {
 
         $text = trim($data->text);
 
-        $rules = Rule::remember(5, 'cached_rules')->get();
+        $rules = Rule::remember(5, 'cached_rules')->get()->reverse();
 
         // First put back all the protected items
 
-        foreach(self::$dictionary as $key => $value) {
-            $text = str_replace($key, $value, $text);
+        foreach(array_reverse(self::$dictionary) as $item) {
+            $text = str_replace($item[0], $item[1], $text);
         }
 
         // Then process the other replacement rules.
