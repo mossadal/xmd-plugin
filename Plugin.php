@@ -61,6 +61,16 @@ class Plugin extends PluginBase
         return $data->text;
     }
 
+    public function registerPermissions()
+    {
+        return [
+            'mossadal.extendmarkdown.settings' => [
+                'tab' => 'ExtendMarkdown Plugin',
+                'label' => 'Access Settings'
+            ],
+        ];
+    }
+
     /**
      * Register the extended Markdown parser as a Twig filter.
      *
@@ -89,6 +99,7 @@ class Plugin extends PluginBase
                 'icon'      => 'icon-user-md',
                 'order'     => 700,
                 'category'  => SettingsManager::CATEGORY_CMS,
+                'permissions' => ['mossadal.extendmarkdown.settings']
             ]
         ];
     }
